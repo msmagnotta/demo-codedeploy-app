@@ -6,7 +6,7 @@
   <style>
     body {
       color: #ffffff;
-      background-color: #007f3f;
+      background-color: #0d007f;
       font-family: Arial, sans-serif;
       font-size: 14px;
     }
@@ -39,14 +39,14 @@
       position: absolute;
       width: 10px;
       height: 30px;
-      background-color: #e74c3c;
+      background-color: #ff1900;
       top: 5px;
       left: 50%;
       transform-origin: 50% 100%;
     }
 
     .peg:nth-child(odd) {
-      background-color: #f39c12;
+      background-color: #000000;
     }
 
     .wheel-container:active {
@@ -123,6 +123,14 @@
     .counters {
       margin-top: 20px;
     }
+
+    /* Styling for the canvas */
+    #gameCanvas {
+      background-color: #444;
+      border: 2px solid #fff;
+      margin-top: 30px;
+    }
+
   </style>
 </head>
 <body>
@@ -152,6 +160,9 @@
     <div class="wheel-container" id="wheel">
       <!-- Pegs will be added dynamically with JavaScript -->
     </div>
+
+    <!-- Platformer Game Canvas -->
+    <canvas id="gameCanvas" width="1200" height="400"></canvas>
 
   <script src="./Index.js"></script>
 </body>
