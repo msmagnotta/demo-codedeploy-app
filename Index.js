@@ -111,3 +111,129 @@ function getAngle(e) {
   const deltaY = e.clientY - wheelCenterY;
   return Math.atan2(deltaY, deltaX) * (180 / Math.PI);
 }
+
+// Platformer Game
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+
+// Set canvas size
+canvas.width = 1200;
+canvas.height = 400;
+
+let player = {
+  x: 50,
+  y: 300,
+  width: 50,
+  height: 50,
+  speed: 5,
+  dx: 0,
+  dy: 0,
+  gravity: 0.8,
+  jumpPower: -12,
+  grounded: false
+};
+
+let keys = {
+  right: false,
+  left: false,
+  up: false
+};
+
+let platforms = [
+  { x: 0, y: 350, width: 1200, height: 50 }, // Ground platform
+  { x: 50, y: 250, width: 100, height: 20 },
+  { x: 250, y: 150, width: 100, height: 20 },
+  { x: 450, y: 250, width: 100, height: 20 },
+  { x: 650, y: 150, width: 100, height: 20 },
+  { x: 850, y: 100, width: 100, height: 20 },
+  { x: 1050, y: 50, width: 100, height: 20 }
+];
+
+function drawPlayer() {
+  ctx.fillStyle = '#ff1900'; // Player color
+  ctx.fillRect(player.x, player.y, player.width, player.height); // Draw player as a red square
+}
+
+function drawPlatforms() {
+  ctx.fillStyle = '#2ecc71'; // Platform color
+  platforms.forEach((platform) => {
+    ctx.fillRect(platform.x, platform.y, platform.width, platform.height); // Draw each platform
+  });
+}
+
+function movePlayer() {
+  // Move player left or right
+  if (keys.right && player.x + player.width < canvas.width) {
+    player.dx = player.speed;
+  } else if (keys.left && player.x > 0) {
+    player.dx = -player.speed;
+  } else {
+    player.dx = 0;
+  }
+
+  // Apply gravity (falling down)
+  player.dy += player.gravity;
+
+  // Jumping mechanism
+  if (keys.up && player.grounded) {
+    player.dy = player.jumpPower;
+    player.grounded = false;
+  }
+
+  // Update player position
+  player.x += player.dx;
+  player.y += player.dy;
+}
+
+function detectCollision() {
+  player.grounded = false;
+
+  platforms.forEach((platform) => {
+    // Check if player is falling and collides with the platform
+    if (
+      player.x + player.width > platform.x &&
+      player.x < platform.x + platform.width &&
+      player.y + player.height + player.dy >= platform.y &&
+      player.y <= platform.y 
+    ) {
+      // Stop downward velocity when colliding with the platform
+      player.dy = 0;
+
+      // Make sure player is placed exactly on top of the platform, avoiding overlap
+      player.y = platform.y - player.height; 
+
+      // Mark player as grounded
+      player.grounded = true;
+    }
+  });
+
+  // Prevent the player from falling through the floor (reset if below the screen)
+  if (player.y + player.height > canvas.height) {
+    player.y = canvas.height - player.height; // Reset position to the floor
+    player.dy = 0;
+    player.grounded = true; // Ensure the player is grounded at the floor level
+  }
+}
+
+function update() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+  drawPlatforms();
+  drawPlayer();
+  movePlayer();
+  detectCollision();
+  requestAnimationFrame(update); // Continue updating the game
+}
+
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight' || e.key === 'd') keys.right = true;
+  if (e.key === 'ArrowLeft' || e.key === 'a') keys.left = true;
+  if (e.key === 'ArrowUp' || e.key === ' ') keys.up = true;
+});
+
+window.addEventListener('keyup', (e) => {
+  if (e.key === 'ArrowRight' || e.key === 'd') keys.right = false;
+  if (e.key === 'ArrowLeft' || e.key === 'a') keys.left = false;
+  if (e.key === 'ArrowUp' || e.key === ' ') keys.up = false;
+});
+
+update(); // Start the game loop
