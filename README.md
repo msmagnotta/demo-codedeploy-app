@@ -8,8 +8,8 @@ Created Index.js for functionality regarding index.html
 Elastic Beanstalk - WebPage Creation for the environment <br />
 EC2 Instance - Instance for Webpage to be deployed on <br />
 CodePipeline - Continuous Integration/Continuous Delivery <br />
-Roles - Policies created (Letting Amazon AWS Handle Bucket and Instance <br />
-S3 Buckets
+Roles - Policies created (Letting Amazon AWS Handle Bucket and Instance) <br />
+S3 Buckets - Object Storage Service
 
 # How to Implement/Use
 ## On your Amazon AWS account (Preferrably an IAM account)
