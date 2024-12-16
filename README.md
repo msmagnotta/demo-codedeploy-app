@@ -5,7 +5,7 @@ Edited index.html and CSS page for Fidget Interactive project
 Created Index.js for functionality regarding index.html
 
 ## This App Uses AWS Services:
-Elastic Beanstalk - WebPage Creation for the environment /n 
+Elastic Beanstalk - WebPage Creation for the environment <br />
 EC2 Instance - Instance for Webpage to be deployed on
 CodePipeline - Continuous Integration/Continuous Delivery
 Roles - Policies created (Letting Amazon AWS Handle Bucket and Instance 
